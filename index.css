@@ -1,0 +1,12 @@
+/* Custom styles for Fernandez Photography */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lora', serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Additional custom styles can be added here */
