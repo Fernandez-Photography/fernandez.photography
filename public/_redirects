@@ -1,0 +1,3 @@
+# Static hosting redirects
+# Handle client-side routing for SPA
+/*    /index.html   200

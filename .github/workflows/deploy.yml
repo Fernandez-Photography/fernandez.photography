@@ -1,54 +1,106 @@
-name: Build and Deploy
+name: Deploy to GitHub Pages
 
+# Trigger the workflow on pushes to main branch and manual dispatch
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
+# Required permissions for GitHub Pages deployment
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read      # Read repository contents
+  pages: write        # Write to GitHub Pages
+  id-token: write     # Generate OIDC token for deployment
 
+# Ensure only one deployment runs at a time
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
+  # Build job - compiles the project and prepares artifacts
   build:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      # Step 1: Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for better caching
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
+      # Step 2: Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'           # Use Node.js 18
+          cache: 'npm'                 # Cache npm dependencies for faster builds
+          cache-dependency-path: 'package-lock.json'
       
-    - name: Build project
-      run: npm run build
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+        # npm ci is faster and more reliable for CI environments
+        # It installs exactly what's in package-lock.json
       
-    - name: Upload build artifacts
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./dist
+      # Step 4: Build the project
+      - name: Build project
+        run: npm run build
+        # This creates the dist/ folder with all static assets
+      
+      # Step 5: Verify build output
+      - name: Verify build output
+        run: |
+          echo "Build completed successfully!"
+          echo "Contents of dist folder:"
+          ls -la dist/
+          echo "Total size:"
+          du -sh dist/
+      
+      # Step 6: Handle 404 page for SPA routing
+      - name: Setup 404 page for SPA
+        run: |
+          # Create 404.html for client-side routing support
+          if [ -f "public/404.html" ]; then
+            echo "Using custom 404.html from public folder"
+            cp public/404.html dist/404.html
+          else
+            echo "Creating 404.html from index.html for SPA fallback"
+            cp dist/index.html dist/404.html
+          fi
+      
+      # Step 7: Add .nojekyll file to prevent Jekyll processing
+      - name: Add .nojekyll file
+        run: |
+          touch dist/.nojekyll
+          echo "Added .nojekyll to prevent Jekyll from processing the site"
+      
+      # Step 8: Upload build artifacts to GitHub Pages
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/  # Upload the entire dist folder
+          retention-days: 30  # Keep artifacts for 30 days
 
+  # Deploy job - deploys the built artifacts to GitHub Pages
   deploy:
+    # Only run if build job succeeds
+    needs: build
+    
+    # Only run on main branch pushes (not on pull requests)
+    if: github.ref == 'refs/heads/main'
+    
+    # Set up GitHub Pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    
     runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
     
     steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      # Step 1: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        # This action deploys the artifacts uploaded in the build job
+        # The page_url will be available at: https://username.github.io/repository-name

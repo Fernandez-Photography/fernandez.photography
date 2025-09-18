@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | Fernandez Photography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'cream': '#FEFBF6',
+              'rose-water': '#F5E6E8',
+              'blush': '#E8C2CA',
+              'soft-gold': '#D4AF7A',
+              'charcoal': '#5C5048',
+            },
+            fontFamily: {
+              'heading': ['"Dancing Script"', 'cursive'],
+              'body': ['"Lora"', 'serif'],
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="min-h-screen bg-cream font-body text-charcoal">
+    <header class="bg-cream/80 backdrop-blur-md sticky top-0 z-50 w-full border-b border-blush/20">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-4xl font-heading font-bold text-charcoal hover:text-blush transition-colors">
+          Fernandez Photography
+        </a>
+        <nav class="hidden md:flex items-center space-x-8 font-body tracking-wider uppercase text-sm">
+          <a href="/#about" class="text-charcoal hover:text-blush transition-colors">About</a>
+          <a href="/#portfolio" class="text-charcoal hover:text-blush transition-colors">Portfolio</a>
+          <a href="/#pricing" class="text-charcoal hover:text-blush transition-colors">Pricing</a>
+          <a href="/#blog" class="text-charcoal hover:text-blush transition-colors">Blog</a>
+          <a href="/#contact" class="text-charcoal hover:text-blush transition-colors">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="relative min-h-screen flex items-center justify-center text-center">
+      <div 
+        class="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style="background-image: url('https://picsum.photos/seed/ethereal-404/1920/1280')"
+      >
+        <div class="absolute top-0 left-0 w-full h-full bg-cream opacity-50"></div>
+      </div>
+      
+      <div class="relative z-10 text-charcoal p-4 max-w-4xl mx-auto">
+        <div class="mb-8">
+          <h1 class="text-9xl md:text-[12rem] font-heading font-normal mb-4 drop-shadow-sm text-soft-gold">
+            404
+          </h1>
+          <div class="w-24 h-1 bg-blush mx-auto mb-8"></div>
+        </div>
+        
+        <h2 class="text-4xl md:text-6xl font-heading font-normal mb-6 drop-shadow-sm">
+          Oops! This Page Got Lost
+        </h2>
+        
+        <p class="text-lg md:text-xl font-body tracking-wider mb-8 max-w-2xl mx-auto drop-shadow-sm">
+          Like a beautiful moment that slipped away, this page seems to have wandered off. 
+          But don't worry – let's capture something better together.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a 
+            href="/" 
+            class="bg-blush text-white font-body tracking-wider uppercase text-sm font-bold py-4 px-10 rounded-sm hover:bg-blush/90 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            Return Home
+          </a>
+          <a 
+            href="/#contact" 
+            class="bg-soft-gold text-white font-body tracking-wider uppercase text-sm font-bold py-4 px-10 rounded-sm hover:bg-soft-gold/90 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            Book a Session
+          </a>
+        </div>
+        
+        <div class="mt-12 text-sm text-charcoal/70">
+          <p class="mb-2">While you're here, why not explore some of our beautiful work?</p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm">
+            <a href="/#weddings" class="hover:text-blush transition-colors">Weddings</a>
+            <span class="text-soft-gold">•</span>
+            <a href="/#engagements" class="hover:text-blush transition-colors">Engagements</a>
+            <span class="text-soft-gold">•</span>
+            <a href="/#portraits" class="hover:text-blush transition-colors">Portraits</a>
+            <span class="text-soft-gold">•</span>
+            <a href="/#branding" class="hover:text-blush transition-colors">Branding</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-charcoal text-cream py-8">
+      <div class="container mx-auto px-6 text-center">
+        <p class="text-sm font-body tracking-wider">
+          © 2024 Fernandez Photography. Capturing life's most beautiful chapters.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
